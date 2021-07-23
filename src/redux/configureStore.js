@@ -18,7 +18,7 @@ export const ConfigureStore = () => {
             favouriteAchievements: FavouriteAchievements,
             favouriteFacts:FavouriteFacts,
             favouriteTheories:FavouriteTheories,
-            auth: Auth,
+            auth: Auth
         }),
         applyMiddleware(thunk, logger)
     );

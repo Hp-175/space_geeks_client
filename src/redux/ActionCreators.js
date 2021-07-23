@@ -1,7 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 import {baseUrl} from '../shared/baseUrl';
-import axios from axios;
-import { json } from 'express';
+import axios from 'axios';
 
 export const fetchAchievements = () => (dispatch) => {
     dispatch(achievementsLoading(true));
@@ -141,7 +140,7 @@ export const favouriteAchievementsLoading = () => ({
     type: ActionTypes.FAVOURITE_ACHIEVEMENTS_LOADING
 });
 
-export const favouritesFailed = (errmess) => ({
+export const favouriteAchievementsFailed = (errmess) => ({
     type: ActionTypes.FAVOURITES_ACHIEVEMENTS_FAILED,
     payload: errmess
 });
@@ -226,12 +225,13 @@ export const addFavouriteTheories = (favourite) => ({
 });
 
 
-export const postAchievement = (image, Information, credits) => (dispatch) => {
+export const postAchievement = (image, Information, credits,title) => (dispatch) => {
 
     const newPost = {
         image: image,
         Information: Information,
-        credits: credits
+        credits: credits,
+        title:title
     }
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
@@ -264,12 +264,13 @@ export const postAchievement = (image, Information, credits) => (dispatch) => {
         alert('Your data could not be posted\nError: '+ error.message); })
 }
 
-export const postFact = (image, Information, credits) => (dispatch) => {
+export const postFact = (image, Information, credits,title) => (dispatch) => {
 
     const newPost = {
         image: image,
         Information: Information,
-        credits: credits
+        credits: credits,
+        title:title
     }
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
@@ -302,12 +303,13 @@ export const postFact = (image, Information, credits) => (dispatch) => {
         alert('Your data could not be posted\nError: '+ error.message); })
 }
 
-export const postTheory = (image, Information, By) => (dispatch) => {
+export const postTheory = (image, Information, By,title) => (dispatch) => {
 
     const newPost = {
         image: image,
         Information: Information,
-        By: By
+        By: By,
+        title:title
     }
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
@@ -340,12 +342,13 @@ export const postTheory = (image, Information, By) => (dispatch) => {
         alert('Your data could not be posted\nError: '+ error.message); })
 }
 
-export const putAchievement = (image, Information, credits,_ID) => (dispatch) => {
+export const putAchievement = (image, Information, credits,title,_ID) => (dispatch) => {
 
     const updatePost = {
         image: image,
         Information: Information,
-        credits: credits
+        credits: credits,
+        title:title
     }
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
@@ -378,12 +381,13 @@ export const putAchievement = (image, Information, credits,_ID) => (dispatch) =>
         alert('Your data could not be posted\nError: '+ error.message); })
 }
 
-export const putFact = (image, Information, credits,_ID) => (dispatch) => {
+export const putFact = (image, Information, credits,title,_ID) => (dispatch) => {
 
     const updatePost = {
         image: image,
         Information: Information,
-        credits: credits
+        credits: credits,
+        title:title
     }
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
@@ -416,12 +420,13 @@ export const putFact = (image, Information, credits,_ID) => (dispatch) => {
         alert('Your data could not be posted\nError: '+ error.message); })
 }
 
-export const putTheory = (image, Information, By,_ID) => (dispatch) => {
+export const putTheory = (image, Information, By,title,_ID) => (dispatch) => {
 
     const updatePost = {
         image: image,
         Information: Information,
-        By: By
+        By: By,
+        title:title
     }
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
@@ -522,7 +527,6 @@ export const deleteTheory = (_ID) => (dispatch) => {
 
     return fetch(baseUrl + 'FacinatingTheory/'+_ID, {
         method: 'DELETE',
-        body: JSON.stringify(updatePost),
         headers: {
             'Content-Type': 'application/json',
             'Authorization': bearer
@@ -999,8 +1003,13 @@ export const postChangeUsername = (newUsername) => (dispatch) => {
         alert('Error: '+ error.message); })
 }
 
-export const postImage=(formadata,func,info,cred)=>(dispatch)=>{
-    axios.post(baseUrl+'ImageUpload',formadata)
+export const postImage=(formadata,func,info,cred,title)=>(dispatch)=>{
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+    const headers={
+        'Content-Type': 'application/json',
+        'Authorization': bearer
+    };
+    axios.post(baseUrl+'ImageUpload',{headers:headers},formadata)
     .then(response => {
         if (response.ok) {
             return response;
@@ -1016,7 +1025,7 @@ export const postImage=(formadata,func,info,cred)=>(dispatch)=>{
         throw errmess;
     })
     .then(response => response.json())
-    .then(response => dispatch(func(response.file,info,cred)))
+    .then(response => dispatch(func(response.file,info,cred,title)))
     .catch(error => { console.log('Post comments ', error.message);
         alert('Error: '+ error.message); })
 }
@@ -1067,9 +1076,12 @@ export const loginUser = (creds) => (dispatch) => {
     .then(response => response.json())
     .then(response => {
         if (response.success) {
+            console.log(response);
             localStorage.setItem('token', response.token);
             localStorage.setItem('creds', JSON.stringify(creds));
-            dispatch(fetchFavorites());
+            dispatch(fetchFavouriteAchievements());
+            dispatch(fetchFavouriteFacts());
+            dispatch(fetchFavouriteTheories());
             dispatch(receiveLogin(response));
         }
         else {
