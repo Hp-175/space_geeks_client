@@ -1,6 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 import {baseUrl} from '../shared/baseUrl';
-import axios from 'axios';
+
 
 export const fetchAchievements = () => (dispatch) => {
     dispatch(achievementsLoading(true));
@@ -258,8 +258,7 @@ export const postAchievement = (image, Information, credits,title) => (dispatch)
         var errmess = new Error(error.message);
         throw errmess;
     })
-    .then(response => response.json())
-    .then(response => dispatch(addAchievements(response)))
+    .then(response=>dispatch(fetchAchievements()))
     .catch(error => { console.log('Post Achievements ', error.message);
         alert('Your data could not be posted\nError: '+ error.message); })
 }
@@ -297,8 +296,7 @@ export const postFact = (image, Information, credits,title) => (dispatch) => {
         var errmess = new Error(error.message);
         throw errmess;
     })
-    .then(response => response.json())
-    .then(response => dispatch(addFacts(response)))
+    .then(response=>dispatch(fetchFacts()))
     .catch(error => { console.log('Post comments ', error.message);
         alert('Your data could not be posted\nError: '+ error.message); })
 }
@@ -375,8 +373,7 @@ export const putAchievement = (image, Information, credits,title,_ID) => (dispat
         var errmess = new Error(error.message);
         throw errmess;
     })
-    .then(response => response.json())
-    .then(response => dispatch(addAchievements(response)))
+    .then(response => dispatch(fetchAchievements()))
     .catch(error => { console.log('Post comments ', error.message);
         alert('Your data could not be posted\nError: '+ error.message); })
 }
@@ -414,8 +411,7 @@ export const putFact = (image, Information, credits,title,_ID) => (dispatch) => 
         var errmess = new Error(error.message);
         throw errmess;
     })
-    .then(response => response.json())
-    .then(response => dispatch(addFacts(response)))
+    .then(response => dispatch(fetchFacts()))
     .catch(error => { console.log('Post comments ', error.message);
         alert('Your data could not be posted\nError: '+ error.message); })
 }
@@ -453,8 +449,7 @@ export const putTheory = (image, Information, By,title,_ID) => (dispatch) => {
         var errmess = new Error(error.message);
         throw errmess;
     })
-    .then(response => response.json())
-    .then(response => dispatch(addTheories(response)))
+    .then(response => dispatch(fetchTheories()))
     .catch(error => { console.log('Post comments ', error.message);
         alert('Your comment could not be posted\nError: '+ error.message); })
 }
@@ -583,8 +578,7 @@ export const postFavouriteAchievement = (_id) => (dispatch) => {
         var errmess = new Error(error.message);
         throw errmess;
     })
-    .then(response => response.json())
-    .then(response => dispatch(addFavouriteAchievements(response)))
+    .then(response => dispatch(fetchFavouriteAchievements()))
     .catch(error => { console.log('Post comments ', error.message);
         alert('Favourite achievement could not be added\nError: '+ error.message); })
 }
@@ -619,8 +613,7 @@ export const postFavouriteFact = (_id) => (dispatch) => {
         var errmess = new Error(error.message);
         throw errmess;
     })
-    .then(response => response.json())
-    .then(response => dispatch(addFavouriteFacts(response)))
+    .then(response => dispatch(fetchFavouriteFacts()))
     .catch(error => { console.log('Post comments ', error.message);
         alert('Favourite fact could not be added\nError: '+ error.message); })
 }
@@ -655,8 +648,7 @@ export const postFavouriteTheory = (_id) => (dispatch) => {
         var errmess = new Error(error.message);
         throw errmess;
     })
-    .then(response => response.json())
-    .then(response => dispatch(addFavouriteTheories(response)))
+    .then(response => dispatch(fetchFavouriteTheories()))
     .catch(error => { console.log('Post comments ', error.message);
         alert('Favourite Theory could not be added\nError: '+ error.message); })
 }
@@ -796,8 +788,7 @@ export const postAchievementComment = (comment,PID,CID) => (dispatch) => {
         var errmess = new Error(error.message);
         throw errmess;
     })
-    .then(response => response.json())
-    .then(response => dispatch(addAchievements(response)))
+    .then(response => dispatch(fetchAchievements()))
     .catch(error => { console.log('Post comments ', error.message);
         alert('Your comment could not be posted\nError: '+ error.message); })
 }
@@ -863,8 +854,7 @@ export const postFactComment = (comment,PID,CID) => (dispatch) => {
         var errmess = new Error(error.message);
         throw errmess;
     })
-    .then(response => response.json())
-    .then(response => dispatch(addFacts(response)))
+    .then(response => dispatch(fetchFacts()))
     .catch(error => { console.log('Post comments ', error.message);
         alert('Your comment could not be posted\nError: '+ error.message); })
 }
@@ -930,8 +920,7 @@ export const postTheoryComment = (comment,PID,CID) => (dispatch) => {
         var errmess = new Error(error.message);
         throw errmess;
     })
-    .then(response => response.json())
-    .then(response => dispatch(addTheories(response)))
+    .then(response => dispatch(fetchTheories()))
     .catch(error => { console.log('Post comments ', error.message);
         alert('Your comment could not be posted\nError: '+ error.message); })
 }
@@ -1003,13 +992,18 @@ export const postChangeUsername = (newUsername) => (dispatch) => {
         alert('Error: '+ error.message); })
 }
 
-export const postImage=(formadata,func,info,cred,title)=>(dispatch)=>{
-    const bearer = 'Bearer ' + localStorage.getItem('token');
-    const headers={
-        'Content-Type': 'application/json',
-        'Authorization': bearer
-    };
-    axios.post(baseUrl+'ImageUpload',{headers:headers},formadata)
+export const postImage=(formadata,func,information,credits,title)=>(dispatch)=>{
+    const bearer ='Bearer ' +localStorage.getItem('token');
+    
+    return fetch(baseUrl+'ImageUpload',{
+        method: 'POST',
+        body: formadata,
+        headers:{
+            
+            'Authorization': bearer
+        },
+        credentials: 'same-origin'
+    })
     .then(response => {
         if (response.ok) {
             return response;
@@ -1025,11 +1019,28 @@ export const postImage=(formadata,func,info,cred,title)=>(dispatch)=>{
         throw errmess;
     })
     .then(response => response.json())
-    .then(response => dispatch(func(response.file,info,cred,title)))
-    .catch(error => { console.log('Post comments ', error.message);
-        alert('Error: '+ error.message); })
+    .then(response => {
+        if(func==='Achievement')
+        dispatch(postAchievement(response.file,information,credits,title));
+        else if(func==='Fact')
+        dispatch(postFact(response.file,information,credits,title));
+        else
+        dispatch(postTheory(response.file,information,credits,title))
+    })
+    .catch(error => {alert('Error: '+ error.message);
+        dispatch(Set_default());
+    })
 }
 
+export const addImage = (name) => ({
+    type: ActionTypes.ADD_IMAGE,
+    payload: name
+});
+
+export const Set_default=()=>({
+    type:ActionTypes.SET_DEFAULT,
+    payload:'00'
+});
 export const requestLogin = (creds) => {
     return {
         type: ActionTypes.LOGIN_REQUEST,

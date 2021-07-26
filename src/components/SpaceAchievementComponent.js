@@ -3,15 +3,14 @@ import { Card, CardImg, CardImgOverlay, CardTitle, Modal,ModalBody,ModalHeader,F
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
-import { postAchievementComment } from '../redux/ActionCreators';
 
     function RenderAchievementItem({ achievement, onClick }) {
         return(
             <Card>
                 <Link to={`/Space-Achievement/${achievement._id}`} >
-                    {/* <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} /> */}
+                    <CardImg width="100%" src={baseUrl+'images/'+achievement.image} alt={achievement.image} />
                     <CardImgOverlay>
-                        <CardTitle>{achievement.Information}</CardTitle>
+                        <CardTitle>{achievement.title}</CardTitle>
                     </CardImgOverlay>
                 </Link>
             </Card>
@@ -22,10 +21,12 @@ import { postAchievementComment } from '../redux/ActionCreators';
         constructor(props) {
             super(props);
             this.state = {
-                isModalOpen: false
+                isModalOpen: false,
+                selectedFile: null
             };
             this.toggleModal = this.toggleModal.bind(this);
             this.handlePost=this.handlePost.bind(this);
+            this.postAchievement=this.postAchievement.bind(this);
         }
         toggleModal() {
             this.setState({
@@ -35,12 +36,24 @@ import { postAchievementComment } from '../redux/ActionCreators';
         
         handlePost(event){
             this.toggleModal();
-            const formData=new FormData();
-            formData.append("Image",this.image.value)
-            this.props.postImage({formdata: formData, func: this.props.postAchievement,info:this.information.value,cred:this.credits.value,title:this.title.value});
+            const formData = new FormData();
+            formData.append(
+                "imageFile",
+                this.state.selectedFile,
+                this.state.selectedFile.name
+            );
+           
+            this.props.postImage(formData,'Achievement',this.information.value,this.credits.value,this.title.value);
             event.preventDefault();
         }
-        postAchievement(){
+
+        onFileChange = event => {
+    
+            this.setState({ selectedFile: event.target.files[0] });
+            
+          };
+
+        postAchievement=()=>{
             return(
                 <div>
                     <Button outline onClick={this.toggleModal}>
@@ -68,9 +81,9 @@ import { postAchievementComment } from '../redux/ActionCreators';
                                 <FormGroup>
                                     <Label htmlFor="image">Upload image</Label>
                                     <Input type="file" id="image" name="image"
-                                        innerRef={(input) => this.image = input}  />
+                                        onChange={this.onFileChange}/>
                                 </FormGroup>
-                                <Button type="submit" value="submit" color="primary">Login</Button>
+                                <Button type="submit" value="submit" color="primary">Post</Button>
                             </Form>
                         </ModalBody>
                     </Modal>
@@ -91,7 +104,7 @@ import { postAchievementComment } from '../redux/ActionCreators';
                     
                     <div className="container">
                         <div className="row">
-                            <postAchievement/>
+                            <this.postAchievement/>
                             <Loading />
                         </div>
                     </div>
@@ -101,7 +114,7 @@ import { postAchievementComment } from '../redux/ActionCreators';
                 return(
                     <div className="container">
                         <div className="row">
-                            <postAchievement/>
+                            <this.postAchievement/>
                             <h4>{this.props.achievements.errMess}</h4>
                         </div>
                     </div>
@@ -111,37 +124,7 @@ import { postAchievementComment } from '../redux/ActionCreators';
                 return (
                     <div className="container">
                         <div className="row">
-                        <Button outline onClick={this.toggleModal}>
-                        Post Space Achievement
-                    </Button>
-                    <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-                        <ModalHeader toggle={this.toggleModal}>Space Achievement</ModalHeader>
-                        <ModalBody>
-                            <Form onSubmit={this.handlePost}>
-                                <FormGroup>
-                                    <Label htmlFor="title">Title</Label>
-                                    <Input type="text" id="title" name="title"
-                                        innerRef={(input) => this.title = input} />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="information">Information</Label>
-                                    <Input type="text" id="information" name="information"
-                                        innerRef={(input) => this.information = input}  />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="credits">Credits</Label>
-                                    <Input type="text" id="credits" name="credits"
-                                        innerRef={(input) => this.credits = input}  />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label htmlFor="image">Upload image</Label>
-                                    <Input type="file" id="image" name="image"
-                                        innerRef={(input) => this.image = input}  />
-                                </FormGroup>
-                                <Button type="submit" value="submit" color="primary">Post</Button>
-                            </Form>
-                        </ModalBody>
-                    </Modal>
+                            <this.postAchievement/>
                             {this.achievementre}
                         </div>
                     </div>

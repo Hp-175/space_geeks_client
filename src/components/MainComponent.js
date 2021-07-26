@@ -13,7 +13,7 @@ import {fetchAchievements,fetchFacts,fetchTheories,
     postTheoryComment,deleteFactComment,
     deleteAchievementComment,deleteTheoryComment,
     postChangeUsername,loginUser,logoutUser,
-    signupUser,postImage} from '../redux/ActionCreators';
+    signupUser,postImage,Set_default} from '../redux/ActionCreators';
 
 import Header from './HeaderComponent';
 import SpaceAchievement from './SpaceAchievementComponent';
@@ -28,7 +28,8 @@ const mapStateToProps = state => {
         favouriteAchievements: state.favouriteAchievements,
         favouriteFacts:state.favouriteFacts,
         favouriteTheories:state.favouriteTheories,
-        auth: state.auth
+        auth: state.auth,
+        image:state.image
     }
 }
 
@@ -64,7 +65,8 @@ const mapDispatchToProps = (dispatch) => ({
     logoutUser: () => dispatch(logoutUser()),
     signupUser: (username,password,firstname,lastname) => dispatch(signupUser(username,password,firstname,lastname)),
     postChangeUsername: (newUsername) => dispatch(postChangeUsername(newUsername)),
-    postImage: (formadata,func,info,cred,title) => dispatch(postImage(formadata,func,info,cred,title))
+    postImage: (formadata,func,info,cred,title) => dispatch(postImage(formadata,func,info,cred,title)),
+    Set_default:()=>dispatch(Set_default())
   });
 
   class Main extends Component {
@@ -86,7 +88,7 @@ const mapDispatchToProps = (dispatch) => ({
             logoutUser={this.props.logoutUser} 
             />   
           <Switch>
-            <Route exact path="/Space-Achievement" component={() => <SpaceAchievement achievements={this.props.achievements} postAchievement={this.props.postAchievement} postImage={this.props.postImage}/>} />
+            <Route exact path="/Space-Achievement" component={() => <SpaceAchievement achievements={this.props.achievements} postAchievement={this.props.postAchievement} postImage={this.props.postImage} image={this.props.image} Set_default={this.props.Set_default}/>} />
               {/* <Route exact path="/Interesting-Facts" component={() => <InterestingFacts facts={this.props.facts} />} /> */}
               {/* <Route exact path="/Facinating-Theories" component={() => <FacinatingTheories theories={this.props.theories} />} /> */}
               {/* <Route exact path="/Space-Achievement/:dishId" component={() => <SpaceAchievement achievements={this.props.achievements} />} /> */}

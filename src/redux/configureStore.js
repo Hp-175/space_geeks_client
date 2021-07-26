@@ -6,6 +6,7 @@ import {FavouriteAchievements} from './FavouriteAchievements';
 import {FavouriteFacts} from './FavouriteFacts';
 import {FavouriteTheories} from './FavouriteTheories';
 import {Auth} from './Auth';
+import {Image} from './Image';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
@@ -18,7 +19,8 @@ export const ConfigureStore = () => {
             favouriteAchievements: FavouriteAchievements,
             favouriteFacts:FavouriteFacts,
             favouriteTheories:FavouriteTheories,
-            auth: Auth
+            auth: Auth,
+            image:Image
         }),
         applyMiddleware(thunk, logger)
     );
