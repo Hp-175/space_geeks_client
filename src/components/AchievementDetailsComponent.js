@@ -48,25 +48,29 @@ import './style.css';
 
     }
 
-    function RenderComments({comments, postComment, dataId,deleteComment}) {
+    function RenderComments({comments}) {
         if (comments !== null&&comments.length!==0)
             return(
-                <div className="col-12 col-md-5 m-1">
+                <div>
                     <ul className="list-unstyled">
                         <Stagger in>
                             {comments.map((comment) => {
                                 return (
                                     <Fade in key={comment._id}>
                                         <li>
-                                        <p>{comment.comment}</p>
-                                        <p>-- {comment.username} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.updatedAt)))}</p>
+                                            <p className="overAll">
+                                                <span className="commentName">{comment.username}</span>
+                                                <span className="second">{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.updatedAt)))}</span>
+                                                <span onClick="hide()" className="cornerText">&#xFE19;</span>
+                                            </p>
+                                            <p className="overAll">{comment.comment}</p>
                                         </li>
+                                        <br />
                                     </Fade>
                                 );
                             })}
                         </Stagger>
                     </ul>
-                    <CommentForm dataId={dataId} postComment={postComment}/>
                 </div>
             );
         else
@@ -103,7 +107,8 @@ import './style.css';
         render() {
             return(
             <div>
-                <Button outline onClick={this.toggleModal}><span className="fa fa-pencil fa-lg"></span> Submit Comment</Button>
+                <span className="fs overAll">Comments</span>
+                <Button className="corners" outline onClick={this.toggleModal}><span className="fa fa-pencil fa-lg"></span> Add Comment</Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                 <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
                 <ModalBody>
@@ -162,9 +167,12 @@ import './style.css';
                     </div>
                     <div>
                         <RenderData data={props.data} favorite={props.favorite} postFavorite={props.postFavorite} deleteFavourite={props.deleteFavourite} editData={props.editData}/>
-                        <br/><h3>Comments</h3>
-                        <hr />
-                        <RenderComments comments={props.data.comments} postComment={props.postComment} dataId={props.data._id} deleteComment={props.deleteComment}/>
+                        <br/>
+                        <div className="bg-light">
+                            <CommentForm dataId={props.data._id} postComment={props.postComment}/>
+                            <hr />
+                            <RenderComments comments={props.data.comments}/>
+                        </div>
                     </div>
                 </div>
             );

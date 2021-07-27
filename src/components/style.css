@@ -11,6 +11,35 @@
     padding: 2% 16%;
   }
 
+  .corners {
+    position: absolute;
+    right: 150px;
+    margin-top:7.5px;
+  }
+
+  .cornerText {
+    position: relative;
+    margin-top:7.5px;
+    margin-left: 100px;
+  }
+
+  .overAll{
+    margin-left: 10px;
+  }
+  .commentName{
+    font-weight: 500;
+    font-size: 105%;
+  }
+  .second{
+    color:#53270e;
+    font-size: 83%;
+    font-weight: 400;
+    margin-left: 8px;
+  }
+  .fs{
+    font-size: 150%;
+    font-weight: 500;
+  }
 @media only screen and (min-width : 320px) {
     .card {
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
