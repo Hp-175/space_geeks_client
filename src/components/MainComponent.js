@@ -101,7 +101,7 @@ const mapDispatchToProps = (dispatch) => ({
             postComment={this.props.postAchievementComment}
             deleteComment={this.props.deleteAchievementComment}
             favorite={this.props.favouriteAchievements}
-            postFavorite={this.props.postFavouriteAchievement}
+            postFavourite={this.props.postFavouriteAchievement}
             deleteFavourite={this.props.deleteFavouriteAchievement}
             />
         );

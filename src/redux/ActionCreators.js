@@ -116,24 +116,32 @@ export const addTheories = (theories) => ({
 export const fetchFavouriteAchievements = () => (dispatch) => {
     dispatch(favouriteAchievementsLoading(true));
 
-    return fetch(baseUrl + 'Favourite/favouriteAchievements')
-        .then(response => {
-            if (response.ok) {
-                return response;
-            }
-            else {
-                var error = new Error('Error ' + response.status + ': ' + response.statusText);
-                error.response = response;
-                throw error;
-            }
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'Favourite/favouriteAchievements', {
+        method: 'GET',
+        headers: {
+            'Authorization': bearer
         },
-        error => {
-            var errmess = new Error(error.message);
-            throw errmess;
-        })
-        .then(response => response.json())
-        .then(favourite => dispatch(addFavouriteAchievements(favourite)))
-        .catch(error => dispatch(favouriteAchievementsFailed(error.message)));
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response => response.json())
+    .then(favourite => dispatch(addFavouriteAchievements(favourite)))
+    .catch(error => dispatch(favouriteAchievementsFailed(error.message)));
 }
 
 export const favouriteAchievementsLoading = () => ({
@@ -153,24 +161,32 @@ export const addFavouriteAchievements = (favourite) => ({
 export const fetchFavouriteFacts = () => (dispatch) => {
     dispatch(favouriteFactsLoading(true));
 
-    return fetch(baseUrl + 'Favourite/favouriteFacts')
-        .then(response => {
-            if (response.ok) {
-                return response;
-            }
-            else {
-                var error = new Error('Error ' + response.status + ': ' + response.statusText);
-                error.response = response;
-                throw error;
-            }
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'Favourite/favouriteFacts', {
+        method: 'GET',
+        headers: {
+            'Authorization': bearer
         },
-        error => {
-            var errmess = new Error(error.message);
-            throw errmess;
-        })
-        .then(response => response.json())
-        .then(favourite => dispatch(addFavouriteFacts(favourite)))
-        .catch(error => dispatch(favouriteFactsFailed(error.message)));
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response => response.json())
+    .then(favourite => dispatch(addFavouriteFacts(favourite)))
+    .catch(error => dispatch(favouriteFactsFailed(error.message)));
 }
 
 export const favouriteFactsLoading = () => ({
@@ -190,24 +206,32 @@ export const addFavouriteFacts = (favourite) => ({
 export const fetchFavouriteTheories = () => (dispatch) => {
     dispatch(favouriteTheoriesLoading(true));
 
-    return fetch(baseUrl + 'Favourite/favouriteTheories')
-        .then(response => {
-            if (response.ok) {
-                return response;
-            }
-            else {
-                var error = new Error('Error ' + response.status + ': ' + response.statusText);
-                error.response = response;
-                throw error;
-            }
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'Favourite/favouriteTheories', {
+        method: 'GET',
+        headers: {
+            'Authorization': bearer
         },
-        error => {
-            var errmess = new Error(error.message);
-            throw errmess;
-        })
-        .then(response => response.json())
-        .then(favourite => dispatch(addFavouriteTheories(favourite)))
-        .catch(error => dispatch(favouriteTheoriesFailed(error.message)));
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response => response.json())
+    .then(favourite => dispatch(addFavouriteTheories(favourite)))
+    .catch(error => dispatch(favouriteTheoriesFailed(error.message)));
 }
 
 export const favouriteTheoriesLoading = () => ({
@@ -556,7 +580,7 @@ export const postFavouriteAchievement = (_id) => (dispatch) => {
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
     return fetch(baseUrl + 'Favourite/favouriteAchievements', {
-        method: 'PUT',
+        method: 'POST',
         body: JSON.stringify(newFav),
         headers: {
             'Content-Type': 'application/json',
@@ -674,7 +698,7 @@ export const deleteFavouriteAchievement = (_id) => (dispatch) => {
             return response;
         }
         else {
-            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            var error = new Error( response.status + ': ' + response.statusText);
             error.response = response;
             throw error;
         }

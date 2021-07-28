@@ -21,62 +21,70 @@ import './style.css';
             else
             fav=true;
         }
-            return(
-                <div>
-                    <FadeTransform in 
-                        transformProps={{
-                            exitTransform: 'scale(0.5) translateY(-50%)'
-                        }}>
-                        <div className="cardSp">
-                            <img className="imgWidth" src={baseUrl +'images/'+ data.image} alt={data.image} />
-                            <div>
-                                <Button outline color="primary" onClick={() => fav ? alert('Already favourite') : postFavourite(data._id)}>
-                                    {fav ?
-                                        <span className="fa fa-heart"></span>
-                                        : 
-                                        <span className="fa fa-heart-o"></span>
-                                    }
-                                </Button>
-                            </div>
-                            <div className="containerText">
-                                {data.title}
-                            </div>
+        return(
+            <div className="bigp">
+                <div className="another">
+                    <div className="cardSp">
+                        <img className="imgWidth" src={baseUrl +'images/'+ data.image} alt={data.image} />
+                        <div>
+                            <span className="star" onClick={() => fav ? deleteFavourite(data._id) : postFavourite(data._id)}>
+                                {fav ?
+                                    <span className="fa fa-heart"></span>
+                                    : 
+                                    <span className="fa fa-heart inside"></span>
+                                }
+                            </span>
                         </div>
-                    </FadeTransform>
+                    </div>
                 </div>
-            );
-
+                <div className="cardST">
+                    <div>
+                        {data.Information}
+                    </div>
+                </div>
+            </div>
+        );
     }
 
-    function RenderComments({comments}) {
-        if (comments !== null&&comments.length!==0)
-            return(
-                <div>
-                    <ul className="list-unstyled">
-                        <Stagger in>
-                            {comments.map((comment) => {
+    class RenderComments extends Component {
+        constructor(props) {
+            super(props);
+         }
+
+        render(){
+            if (this.props.comments !== null&&this.props.comments.length!==0)
+            {
+                return(
+                    <div>
+                        
+                        <ul className="list-unstyled">
+                            {this.props.comments.map((comment) => {
                                 return (
-                                    <Fade in key={comment._id}>
+                                    <div in key={comment._id}>
                                         <li>
                                             <p className="overAll">
                                                 <span className="commentName">{comment.username}</span>
                                                 <span className="second">{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.updatedAt)))}</span>
-                                                <span onClick="hide()" className="cornerText">&#xFE19;</span>
+                                                <span className="cornerText">    
+                                                    <div className="fa fa-times myDiv"  onClick={()=>this.props.deleteComment(this.props.dataId,comment._id)}></div><span className="hide">Remove</span>
+                                                </span>
                                             </p>
                                             <p className="overAll">{comment.comment}</p>
                                         </li>
                                         <br />
-                                    </Fade>
+                                    </div>
                                 );
                             })}
-                        </Stagger>
-                    </ul>
-                </div>
-            );
-        else
-            return(
-                <div>No comments yet</div>
-            );
+                        </ul>
+                    </div>
+                );
+            }
+            else
+                return(
+                    <div>No comments yet</div>
+                );
+            }
+        
     }
 
     class CommentForm extends Component {
@@ -107,8 +115,12 @@ import './style.css';
         render() {
             return(
             <div>
-                <span className="fs overAll">Comments</span>
-                <Button className="corners" outline onClick={this.toggleModal}><span className="fa fa-pencil fa-lg"></span> Add Comment</Button>
+                <div className="corners">
+                    <span className="fs overAll top">Comments</span>
+                    <Button style={{backgroundColor:"steelblue"}}className="top" onClick={this.toggleModal}>
+                        <span className="fa fa-pencil fa-lg"></span> Add Comment
+                    </Button>
+                </div>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                 <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
                 <ModalBody>
@@ -154,7 +166,7 @@ import './style.css';
         }
         else if (props.data != null)        
             return (
-                <div className="container">
+                <div className="page">
                     <div className="row">
                         <Breadcrumb>
                             <BreadcrumbItem><Link to='/Space-Achievement'>Space-Achievement</Link></BreadcrumbItem>
@@ -166,13 +178,14 @@ import './style.css';
                         </div>
                     </div>
                     <div>
-                        <RenderData data={props.data} favorite={props.favorite} postFavorite={props.postFavorite} deleteFavourite={props.deleteFavourite} editData={props.editData}/>
-                        <br/>
-                        <div className="bg-light">
-                            <CommentForm dataId={props.data._id} postComment={props.postComment}/>
-                            <hr />
-                            <RenderComments comments={props.data.comments}/>
-                        </div>
+                        <RenderData data={props.data} favorite={props.favorite} postFavourite={props.postFavourite} deleteFavourite={props.deleteFavourite} editData={props.editData}/>
+                    </div>
+                    <br/>
+                    
+                    <div className="bg-light">
+                        <CommentForm dataId={props.data._id} postComment={props.postComment}/>
+                        <hr />
+                        <RenderComments dataId={props.data._id} comments={props.data.comments} deleteComment={props.deleteComment}/>
                     </div>
                 </div>
             );
