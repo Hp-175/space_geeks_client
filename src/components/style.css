@@ -2,6 +2,20 @@
   .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
+  .bottom-center{
+    font-weight: 500;
+    font-size: 120%;
+    font-family: 'Brush Script MT', cursive;
+  }
+  .capt{
+    text-align: center;
+    position: absolute;
+    left: 0;
+    bottom: 20px;
+    right: 0;
+    padding: 1%;
+    color: white;
+  }
   .page{
     margin-left: 4%;
     margin-right: 5%;
@@ -10,13 +24,21 @@
     border-radius: 5px 5px 0 0;
   }
   
+  .foot{
+    font-weight:520;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;    
+  }
+  .dbtn{
+    float:right;
+    margin-right: 10px;
+    font-size: 120%;
+    color: #1f8a84;
+    cursor: pointer;
+  }
   .containerText {
     padding: 2% 16%;
   }
 
-  .bigp{
-    width: 100%;
-  }
   .corners {
     display: flex;
     justify-content: space-between;
@@ -42,7 +64,7 @@
 
   .star{
     font-size: 120%;
-    margin-left: 3%;
+    margin-left: 10px;
     cursor: pointer;
     color: rgb(214, 45, 45);
   }
@@ -57,33 +79,42 @@
   }
 
   .dropdown {
-    position: absolute;
-    display: inline-block;
+    display: none;
+    float:right;
+    margin-right: 144px;
+    margin-top: 17px;
+    position: relative;
     right: 0.4em;
-}
-
-.dropdown-content {
+  }
+  .link:link{
+    text-decoration: none;
+  }
+  .dropdown-content {
     position: absolute;
+    margin-top: 3px;
     background-color: #f9f9f9;
     min-width: 160px;
     overflow: auto;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
+  }
+  .dbtn:hover+.dropdown{
     display: block;
-}
+  }
+  .dropdown:hover{
+    display: block;
+  }
+  .dropdown-content span {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+  }
 
-.dropdown a:hover {
-  background-color: #f1f1f1;
-  color: black;
-}
-
-.show {display:block;}
+  .dropdown span:hover {
+    background-color: #f1f1f1;
+    color: black;
+  }
 
   .overAll{
     margin-left: 10px;
@@ -102,22 +133,34 @@
     font-size: 150%;
     font-weight: 500;
   }
+  .cardST{
+    font-family:'Cabin',sans-serif ;
+  }
+  .Dtitle{
+    font-family:'Cabin',sans-serif ;
+  }
 @media only screen and (min-width : 320px) {
     .card {
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         transition: 0.3s;
-        width: 98%;
+       
         border-radius: 5px;
         margin-left: 1%;
-        margin-top: 1%;
+        margin-top: 6%;
         position: relative;
+      }
+      .alignment{
+        width: 100%;
+        line-height: 0;
+        column-count: 1;
+        column-gap: 0;
       }
       .cardSp {
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         transition: 0.3s;
         width: 98%;
         border-radius: 5px;
-        
+        margin-left: 1%;
         position: relative;
       }
       .imgWidth{
@@ -125,6 +168,7 @@
       }
       .cardST {
         margin-top: 3%;
+        margin-left: 1%;
         align-content:left;
         text-align: left;
         position: relative;
@@ -135,18 +179,21 @@
     .card {
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         transition: 0.3s;
-        width: 47%;
         border-radius: 5px;
-        margin-left: 1%;
-        margin-top: 1%;
         position: relative;
         float: left;
+      }
+      .alignment{
+        width: 100%;
+        line-height: 0;
+        column-count: 2;
+        column-gap: 0;
       }
       .cardSp {
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         transition: 0.3s;
         border-radius: 5px;
-        
+        margin-top: 3%;
         position: relative;
       }
       .another{
@@ -163,17 +210,20 @@
     .card {
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         transition: 0.3s;
-        width: 32%;
         border-radius: 5px;
-        margin-left: 1%;
-        margin-top: 1%;
         position: relative;
+      }
+      .alignment{
+        width: 100%;
+        line-height: 0;
+        column-count: 3;
+        column-gap: 0;
       }
       .cardSp {
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         transition: 0.3s;
         border-radius: 5px;
-        margin-top: 1%;
+        margin-top: 3%;
         position: relative;
       }
       .another{
@@ -182,23 +232,25 @@
       }
       .cardST {
         padding-left: 50%;
+        margin-top: 1%;
         align-content: left;
         text-align: justify;
         position: relative;
       }
 }
 @media only screen and (min-width :1025px) {
-    .card {
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: 0.3s;
-        width: 23%;
-        border-radius: 5px;
-        margin-left: 1%;
-        margin-right: 0.5%;
-        margin-top: 1%;
-        
-        position: relative;
-    }
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    position: absolute;
+  }
+  .alignment{
+    width: 100%;
+    line-height: 0;
+    column-count: 3;
+    column-gap: 0;
+  }
     .cardSp {
       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
       transition: 0.3s;

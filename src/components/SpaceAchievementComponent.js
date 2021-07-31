@@ -4,14 +4,13 @@ import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 import './style.css';
+
 function RenderAchievementItem({ achievement }) {
     return(
         <div className="card">
-            <Link to={`/Space-Achievement/${achievement._id}`} >
+            <Link className="link" to={`/Space-Achievement/${achievement._id}`} >
                 <img width="100%" src={baseUrl+'images/'+achievement.image} alt={achievement.image} />
-                <div className="containerText" >
-                    {achievement.title}
-                </div>
+                <div className="capt"><span className="bottom-center">{achievement.title}</span></div>
             </Link>
         </div>
     );
@@ -92,7 +91,7 @@ class SpaceAchievement extends Component{
     }
     achievementre = this.props.achievements.achievements.map((achievement) => {
         return (
-            <div key={achievement._id}>
+            <div  key={achievement._id}>
                 <RenderAchievementItem achievement={achievement} />
             </div>
         );
@@ -112,7 +111,7 @@ class SpaceAchievement extends Component{
         }
         else if (this.props.achievements.errMess) {
             return(
-                <div className="container">
+                <div>
                     <div>
                         <this.postAchievement/>
                         <h4>{this.props.achievements.errMess}</h4>
@@ -123,10 +122,12 @@ class SpaceAchievement extends Component{
         else
         {
             return (
-                <div>
-                    <this.postAchievement/>
-                    {this.achievementre}
-                </div>
+                    <div>
+                        <this.postAchievement/>
+                        <div className="alignment">
+                            {this.achievementre}
+                        </div>
+                    </div>
             );
         }
     } 

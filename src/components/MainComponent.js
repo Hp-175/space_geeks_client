@@ -95,6 +95,7 @@ const mapDispatchToProps = (dispatch) => ({
         return(
           <AchievementDetails data={this.props.achievements.achievements.filter((achievement) => achievement._id === match.params.achievementId)[0]}
             editData={this.props.putAchievement}
+            deleteData={this.props.deleteAchievement}
             deletePost={this.props.deleteAchievement}
             isLoading={this.props.achievements.isLoading}
             errMess={this.props.achievements.errMess}
@@ -103,6 +104,7 @@ const mapDispatchToProps = (dispatch) => ({
             favorite={this.props.favouriteAchievements}
             postFavourite={this.props.postFavouriteAchievement}
             deleteFavourite={this.props.deleteFavouriteAchievement}
+            place={'Space-Achievement'}
             />
         );
       }
